@@ -50,10 +50,10 @@ def generate_launch_description():
 
     # joint_state_publisher (no GUI)
     joint_state_publisher = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
         name='joint_state_publisher',
-        parameters=[{'use_gui': False}]
+        parameters=[{'use_gui': True}]
     )
 
     # Final LaunchDescription

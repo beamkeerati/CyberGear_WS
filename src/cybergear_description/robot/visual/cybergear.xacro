@@ -14,6 +14,59 @@
       <material name="grey">
         <color rgba="0.6 0.6 0.6 1"/>
       </material>
+      <origin xyz="-0.00265 -0.136 0.059" rpy="0 1.57079632679 0"/>
+    </visual>
+  </link>
+
+  <!-- Left shoulder link with STL mesh -->
+  <link name="Shoulder_Left_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Shoulder_Left.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="-0.0285 0.065 -0.0177 " rpy="0 0 -1.57079632679"/>
+    </visual>
+  </link>
+
+  <!-- Right shoulder link with STL mesh -->
+  <link name="Shoulder_Right_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Shoulder_Right.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="0.0287 0.06 0.1235" rpy="0 3.141592653589 1.57079632679"/>
+    </visual>
+  </link>
+
+  <!-- Left Arm link with STL mesh -->
+  <link name="Arm_Left_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Arm_Left.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Right Arm link with STL mesh -->
+  <link name="Arm_Right_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Arm_Right.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="-0.05234 -0.0517 -0.001" rpy="0 0 0"/>
     </visual>
   </link>
 
@@ -21,7 +74,43 @@
   <joint name="base_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="0 0 1.0" rpy="0 0 0"/> <!-- Adjust Z if needed -->
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Revolute joint from base_link to Shoulder_Left_link -->
+  <joint name="joint1" type="revolute">
+    <parent link="base_link"/>
+    <child link="Shoulder_Left_link"/>
+    <origin xyz="0.002 -0.075 0" rpy="1.57079632679 0 -1.57079632679"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0" lower="-1.57079632679" upper="1.57079632679"/>
+  </joint>
+
+  <!-- Revolute joint from base_link to Shoulder_Right_link -->
+  <joint name="joint2" type="revolute">
+    <parent link="base_link"/>
+    <child link="Shoulder_Right_link"/>
+    <origin xyz="0.002 0.075 0" rpy="1.57079632679 0 -1.57079632679"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0" lower="-1.57079632679" upper="1.57079632679"/>
+  </joint>
+
+  <!-- Revolute joint from Shoulder_Left_link to Arm_Left_link -->
+  <joint name="joint3" type="revolute">
+    <parent link="Shoulder_Left_link"/>
+    <child link="Arm_Left_link"/>
+    <origin xyz="1 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0" lower="1.775" upper="3.2"/>
+  </joint>
+
+  <!-- Revolute joint from Shoulder_Right_link to Arm_Right_link -->
+  <joint name="joint4" type="revolute">
+    <parent link="Shoulder_Right_link"/>
+    <child link="Arm_Right_link"/>
+    <origin xyz="-0.0445 0 0.0626" rpy="0 1.57079632679 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0" lower="1.775" upper="3.2"/>
   </joint>
 
 </robot>
