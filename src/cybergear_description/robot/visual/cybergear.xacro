@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="cybergear">
+  <xacro:property name="use_gui" value="true"/>
+
+  <!-- Base footprint (usually at z=0) -->
+  <link name="base_footprint"/>
+
+  <!-- Main link with STL mesh -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Head.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Fixed joint from base_footprint to base_link -->
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 1.0" rpy="0 0 0"/> <!-- Adjust Z if needed -->
+  </joint>
+
+</robot>
