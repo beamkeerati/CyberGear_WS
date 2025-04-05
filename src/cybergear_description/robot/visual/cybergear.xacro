@@ -148,6 +148,32 @@
     </visual>
   </link>
 
+  <!-- Left Coupling link with STL mesh -->
+  <link name="Left_Coupling_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Left_Coupling.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="0.2175 0.0175 0" rpy="0 0 3.141592653589"/>
+    </visual>
+  </link>
+
+  <!-- Right Coupling link with STL mesh -->
+  <link name="Right_Coupling_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Right_Coupling.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="0.2175 0.0175 -0.034" rpy="0 0 3.141592653589"/>
+    </visual>
+  </link>
+
   
 
   <!-- Fixed joint from base_footprint to base_link -->
@@ -243,6 +269,24 @@
     <child link="Right_Wheel"/>
     <origin xyz="0.16 0 -0.0587" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- Revolute mimick joint from Arm_Left_link to Left_Coupling_link -->
+  <joint name="joint11" type="continuous">
+    <parent link="Leg_Left_link"/>
+    <child link="Left_Coupling_link"/>
+    <origin xyz="-0.08 0 0.011" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="joint7" multiplier="-1.0" offset="0.0"/>
+  </joint>
+
+  <!-- Revolute mimick joint from Arm_Right_link to Right_Coupling_link -->
+  <joint name="joint12" type="continuous">
+    <parent link="Leg_Right_link"/>
+    <child link="Right_Coupling_link"/>
+    <origin xyz="-0.08 0 -0.011" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="joint8" multiplier="-1.0" offset="0.0"/>
   </joint>
 
 </robot>
