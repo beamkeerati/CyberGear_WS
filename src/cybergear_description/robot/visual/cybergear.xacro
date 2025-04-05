@@ -53,7 +53,7 @@
       <material name="grey">
         <color rgba="0.6 0.6 0.6 1"/>
       </material>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="-0.06465 -0.06405 -0.0775" rpy="0 0 0"/>
     </visual>
   </link>
 
@@ -70,11 +70,91 @@
     </visual>
   </link>
 
+  <!-- Left Body link with STL mesh -->
+  <link name="Body_Left_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Body_Left.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="-0.0252 0.0252 -0.0205" rpy="1.57079632679 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Right Body link with STL mesh -->
+  <link name="Body_Right_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Body_Right.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="-0.0252 -0.0252 0.0205" rpy="-1.57079632679 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Left Leg Mimick link with STL mesh -->
+  <link name="Leg_Left_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Leg.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="-0.095 -0.0228 -0.0025" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Right Leg Mimick link with STL mesh -->
+  <link name="Leg_Right_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Leg.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="-0.095 0.0228 0.0025" rpy="3.141592653589 0 0"/>
+    </visual>
+  </link>
+
+  <!-- Left Wheel with STL mesh -->
+  <link name="Left_Wheel">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Hub_Motor.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="0.1 -0.1 0.075" rpy="0 3.141592653589 0"/>
+    </visual>
+  </link>
+
+  <!-- Right Wheel with STL mesh -->
+  <link name="Right_Wheel">
+    <visual>
+      <geometry>
+        <mesh filename="package://cybergear_description/meshes/Hub_Motor.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+      <origin xyz="-0.1 -0.1 -0.075" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  
+
   <!-- Fixed joint from base_footprint to base_link -->
   <joint name="base_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+    <origin xyz="0 0 0.35" rpy="0 0 0"/>
   </joint>
 
   <!-- Revolute joint from base_link to Shoulder_Left_link -->
@@ -99,7 +179,7 @@
   <joint name="joint3" type="revolute">
     <parent link="Shoulder_Left_link"/>
     <child link="Arm_Left_link"/>
-    <origin xyz="1 0 0" rpy="0 0 0"/>
+    <origin xyz="0.0445 0 0.0626" rpy="0 1.57079632679 0"/>
     <axis xyz="0 0 1"/>
     <limit effort="100" velocity="1.0" lower="1.775" upper="3.2"/>
   </joint>
@@ -111,6 +191,58 @@
     <origin xyz="-0.0445 0 0.0626" rpy="0 1.57079632679 0"/>
     <axis xyz="0 0 1"/>
     <limit effort="100" velocity="1.0" lower="1.775" upper="3.2"/>
+  </joint>
+
+  <!-- Revolute joint from Arm_Left_link to Body_Left_link -->
+  <joint name="joint5" type="revolute">
+    <parent link="Arm_Left_link"/>
+    <child link="Body_Left_link"/>
+    <origin xyz="0 0 -0.068" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0" lower="0.65" upper="2.5"/>
+  </joint>
+
+  <!-- Revolute joint from Arm_Right_link to Body_Right_link -->
+  <joint name="joint6" type="revolute">
+    <parent link="Arm_Right_link"/>
+    <child link="Body_Right_link"/>
+    <origin xyz="0 0 0.068" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="1.0" lower="0.65" upper="2.5"/>
+  </joint>
+
+  <!-- Revolute mimick joint from Body_Left_link to Leg_Left_link -->
+  <joint name="joint7" type="continuous">
+    <parent link="Body_Left_link"/>
+    <child link="Leg_Left_link"/>
+    <origin xyz="0.2 0 -0.007" rpy="0 0 3.141592653589"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="joint5" multiplier="-1.0" offset="0.0"/>
+  </joint>
+
+  <!-- Revolute mimick joint from Body_Right_link to Leg_Right_link -->
+  <joint name="joint8" type="continuous">
+    <parent link="Body_Right_link"/>
+    <child link="Leg_Right_link"/>
+    <origin xyz="0.2 0 0.007" rpy="0 0 3.141592653589"/>
+    <axis xyz="0 0 1"/>
+    <mimic joint="joint6" multiplier="-1.0" offset="0.0"/>
+  </joint>
+
+  <!-- Continuous joint from Leg_Left_link to Left_Wheel -->
+  <joint name="joint9" type="continuous">
+    <parent link="Leg_Left_link"/>
+    <child link="Left_Wheel"/>
+    <origin xyz="0.16 0 0.0587" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- Continuous joint from Leg_Right_link to Right_Wheel -->
+  <joint name="joint10" type="continuous">
+    <parent link="Leg_Right_link"/>
+    <child link="Right_Wheel"/>
+    <origin xyz="0.16 0 -0.0587" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
   </joint>
 
 </robot>
